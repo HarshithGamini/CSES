@@ -1,0 +1,27 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+ 
+void solve() {
+    ll n;
+    cin >> n;
+    ll k = 5, res = 0;
+    while(true) {
+        if(n / k == 0) break;
+        res += n / k;
+        k = k * 5;
+    }
+    cout << res << "\n";
+}
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+ 
+    int t = 1;
+    //cin >> t;
+    while(t--) {
+        solve();
+    }
+    return 0;
+}
