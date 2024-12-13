@@ -1,0 +1,63 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+ 
+void solve() {
+    string s;
+    cin >> s;
+    int n = s.size();
+    vector<int> count(26, 0);
+    for(int i = 0;i < n;i++) {
+        count[s[i] - 'A']++;
+    }
+    int odd = 0;
+    for(int i = 0;i < 26;i++) {
+        if(count[i] % 2 == 1) odd++;
+    }
+    if(n % 2 == 0) {
+        if(odd == 0) {
+            string a = "";
+            string b = "";
+            for(int i = 0;i < 26;i++) {
+                if(count[i] > 0) {
+                    a += string(count[i] / 2, char(65 + i));
+                    b += string(count[i] / 2, char(65 + i));
+                }
+            }
+            reverse(b.begin(), b.end());
+            cout << a << b << "\n";
+        } else {
+            cout << "NO SOLUTION" << "\n"; 
+        }
+    } else {
+        if(odd == 1) {
+            string a = "";
+            string b = "";
+            string c = "";
+            for(int i = 0;i < 26;i++) {
+                if(count[i] > 0 && count[i] % 2 == 0) {
+                    a += string(count[i] / 2, char(65 + i));
+                    b += string(count[i] / 2, char(65 + i));
+                } else {
+                    c += string(count[i], char(65 + i));
+                }
+            }
+            reverse(b.begin(), b.end());
+            cout << a << c << b << "\n";
+        } else {
+            cout << "NO SOLUTION" << "\n";
+        }
+    }
+}
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+ 
+    int t = 1;
+    //cin >> t;
+    while(t--) {
+        solve();
+    }
+    return 0;
+}
