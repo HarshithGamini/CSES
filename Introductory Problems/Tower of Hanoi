@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+ 
+void f(int n, vector<vector<int>>& moves, int left, int middle, int right) {
+    if(n == 0) {
+        return;
+    }
+    f(n - 1, moves, left, right, middle);
+    moves.push_back({left, right});
+    f(n - 1, moves, middle, left, right);
+}
+ 
+void solve() {
+    int n;
+    cin >> n;
+    vector<vector<int>> moves;
+    int left = 1, middle = 2, right = 3;
+    f(n, moves, left, middle, right);
+    cout << moves.size() << "\n";
+    for(auto& move: moves) {
+        cout << move[0] << " " << move[1] << "\n";
+    }
+}
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+ 
+    int t = 1;
+    //cin >> t;
+    while(t--) {
+        solve();
+    }
+    return 0;
+}
