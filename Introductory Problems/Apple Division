@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+ 
+ll f(ll index, ll a, ll b, vector<ll>& p) {
+    int n = p.size();
+    if(index == n) {
+        return abs(a - b);
+    }
+ 
+    ll x = f(index + 1, a + p[index], b, p);
+    ll y = f(index + 1, a, b + p[index], p);
+    return min(x, y);
+}
+ 
+void solve() {
+    ll n;
+    cin >> n;
+    vector<ll> p(n);
+    for(ll i = 0;i < n;i++) {
+        cin >> p[i];
+    }
+    cout << f(0, 0, 0, p) << "\n";
+}
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+ 
+    int t = 1;
+    //cin >> t;
+    while(t--) {
+        solve();
+    }
+    return 0;
+}
