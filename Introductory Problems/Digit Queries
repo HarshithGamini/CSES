@@ -1,0 +1,33 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+ 
+void solve() {
+    ll k;
+    cin >> k;
+    ll digit = 1, count = 9;
+    ll num = 0;
+    while(k > count * digit) {
+        num = num * 10 + 9;
+        k -= count * digit;
+        count *= 10;
+        digit++;
+    }
+    ll x = (k + digit - 1) / digit;
+    ll index = (k + digit - 1) % digit;
+    num += x;
+    string res = to_string(num);
+    cout << res[index] << "\n";
+}
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+ 
+    int t = 1;
+    cin >> t;
+    while(t--) {
+        solve();
+    }
+    return 0;
+}
