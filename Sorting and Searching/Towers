@@ -1,0 +1,37 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+ 
+void solve() {
+    int n;
+    cin >> n;
+    vector<int> k(n);
+    for(int i = 0;i < n;i++) {
+        cin >> k[i];
+    }
+    int res = 1;
+    vector<int> st;
+    st.push_back(k[0]);
+    for(int i = 1;i < n;i++) {
+        if(k[i] >= st.back()) {
+            res++;
+            st.push_back(k[i]);
+        } else {
+            int index = upper_bound(st.begin(), st.end(), k[i]) - st.begin();
+            st[index] = k[i];
+        }
+    }
+    cout << res << "\n";
+}
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+ 
+    int t = 1;
+    //cin >> t;
+    while(t--) {
+        solve();
+    }
+    return 0;
+}
