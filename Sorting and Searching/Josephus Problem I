@@ -1,0 +1,35 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+ 
+void solve() {
+    int n;
+    cin >> n;
+    queue<int> q;
+    for(int i = 1;i <= n;i++) {
+        q.push(i);
+    }
+    bool flag = false;
+    while(!q.empty()) {
+        int x = q.front();
+        q.pop();
+        if(flag) {
+            cout << x << " ";
+        } else {
+            q.push(x);
+        }
+        flag = !flag;
+    }
+}
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+ 
+    int t = 1;
+    //cin >> t;
+    while(t--) {
+        solve();
+    }
+    return 0;
+}
