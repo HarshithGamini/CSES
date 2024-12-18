@@ -1,0 +1,34 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+ 
+void solve() {
+    int n;
+    cin >> n;
+    vector<int> indices(n);
+    for(int i = 0;i < n;i++) {
+        int x;
+        cin >> x;
+        x--;
+        indices[x] = i;
+    }
+    int res = 1;
+    for(int i = 0;i < n - 1;i++) {
+        if(indices[i] > indices[i + 1]) {
+            res++;
+        }
+    }
+    cout << res << "\n";
+}
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+ 
+    int t = 1;
+    //cin >> t;
+    while(t--) {
+        solve();
+    }
+    return 0;
+}
