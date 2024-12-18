@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+ 
+void solve() {
+    int x, n;
+    cin >> x >> n;
+    map<int,int> mpp;
+    set<int> st;
+    st.insert(0);
+    st.insert(x);
+    vector<int> p(n);
+    mpp[x] = 1;
+    for(int i = 0;i < n;i++) {
+        cin >> p[i];
+        auto it = st.lower_bound(p[i]);
+        int r = *it;
+        it--;
+        int l = *it;
+        mpp[r - l]--;
+        if(!mpp[r - l]) {
+            mpp.erase(r - l);
+        }
+        st.insert(p[i]);
+        mpp[r - p[i]]++;
+        mpp[p[i] - l]++;
+        cout << ((--mpp.end())->first) << " ";
+    }
+}
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+ 
+    int t = 1;
+    //cin >> t;
+    while(t--) {
+        solve();
+    }
+    return 0;
+}
