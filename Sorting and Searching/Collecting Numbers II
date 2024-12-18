@@ -1,0 +1,66 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+ 
+void solve() {
+    int n, m;
+    cin >> n >> m;
+    vector<int> x(n);
+    vector<int> indices(n);
+    for(int i = 0;i < n;i++) {
+        cin >> x[i];
+        x[i]--;
+        indices[x[i]] = i;
+    }
+ 
+    int res = 1;
+    for(int i = 0;i < n - 1;i++) {
+        if(indices[i] > indices[i + 1]) res++;
+    }
+ 
+    set<pair<int,int>> st;
+    while(m--) {
+        int a, b;
+        cin >> a >> b;
+        a--, b--;
+        if(x[a] + 1 <= n - 1) {
+            st.insert({x[a], x[a] + 1});
+        }
+        if(x[a] - 1 >= 0) {
+            st.insert({x[a] - 1, x[a]});
+        } 
+        if(x[b] + 1 <= n - 1) {
+            st.insert({x[b], x[b] + 1});
+        }
+        if(x[b] - 1 >= 0) {
+            st.insert({x[b] - 1, x[b]});
+        }
+ 
+        for(auto& it: st) {
+            res -= indices[it.first] > indices[it.second];
+        }
+ 
+        swap(x[a], x[b]);
+ 
+        indices[x[a]] = a;
+        indices[x[b]] = b;
+ 
+        for(auto& it: st) {
+            res += indices[it.first] > indices[it.second];
+        }
+        cout << res << "\n";
+        st.clear();
+    }
+}
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+ 
+    int t = 1;
+    //cin >> t;
+    while(t--) {
+        solve();
+    }
+    return 0;
+}
