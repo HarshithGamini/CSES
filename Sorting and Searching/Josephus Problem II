@@ -1,0 +1,35 @@
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+using namespace std;
+typedef long long ll;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+ 
+void solve() {
+    int n, k;
+    cin >> n >> k;
+    ordered_set st;
+    for(int i = 1;i <= n;i++) {
+        st.insert(i);
+    }
+ 
+    int index = k % n;
+    while(n--) {
+        auto it = st.find_by_order(index);
+        cout << *it << " ";
+        st.erase(it);
+        if(n) index = (index + k) % n;
+    }
+}
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+ 
+    int t = 1;
+    //cin >> t;
+    while(t--) {
+        solve();
+    }
+    return 0;
+}
