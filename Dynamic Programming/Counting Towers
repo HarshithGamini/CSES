@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+using namespace std;
+ 
+typedef long long ll;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+const int MxN = 1e6 + 7;
+const int mod = 1e9 + 7;
+int dp[MxN][2];
+ 
+//                                   _ _
+// dp[i][0] = last blocks are fused |   |
+//                                      _  _
+// dp[i][1] = last blocks are separate | || |
+// Transition:
+//              _  _    _  _    _  _    _  _     _ _
+//  _  _       | || |  |_|| |  | ||_|  |_||_|   |_ _|
+// | || | =>   | || |, | || |, | || |, | || |,  | | |
+//              _ _    _ _    _ _ 
+//  _ _        |   |  |_|_|  |_ _|
+// |   |  =>   |   |, |   |, |   |
+ 
+void solve() {
+    int n;
+    cin >> n;
+    cout << (dp[n - 1][0] + dp[n - 1][1]) % mod << "\n";
+}
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+ 
+    int t = 1;
+    cin >> t;
+    dp[0][0] = 1;
+    dp[0][1] = 1;
+    for(int i = 1;i < MxN;i++) {
+        dp[i][0] = (2LL * dp[i - 1][0] + dp[i - 1][1]) % mod;
+        dp[i][1] = (4LL * dp[i - 1][1] + dp[i - 1][0]) % mod;
+    }
+ 
+    while(t--) {
+        solve();
+    }
+    return 0;
+}
