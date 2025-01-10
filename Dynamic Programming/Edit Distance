@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+using namespace std;
+ 
+typedef long long ll;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+ 
+void solve() {
+    string a, b;
+    cin >> a >> b;
+    int m = a.size();
+    int n = b.size();
+    vector<vector<int>> dp(m + 1, vector<int>(n + 1));
+    for(int i = 0;i <= m;i++) {
+        dp[i][0] = i;
+    }
+    for(int j = 0;j <= n;j++) {
+        dp[0][j] = j;
+    }
+    for(int i = 1;i <= m;i++) {
+        for(int j = 1;j <= n;j++) {
+            if(a[i - 1] == b[j - 1]) {
+                dp[i][j] = dp[i - 1][j - 1];
+            } else {
+                int insert = dp[i][j - 1];
+                int remove = dp[i - 1][j];
+                int replace = dp[i - 1][j - 1];
+                dp[i][j] = 1 + min({insert, remove, replace});
+            }
+        }
+    }
+    cout << dp[m][n];
+}
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+ 
+    int t = 1;
+    //cin >> t;
+    while(t--) {
+        solve();
+    }
+    return 0;
+}
