@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+using namespace std;
+ 
+typedef long long ll;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+ 
+int find(vector<vector<int>>& arr, int i) {
+    int low = 0, high = i - 1;
+    int res = -1;
+    while(low <= high) {
+        int mid = low + (high - low) / 2;
+        if(arr[mid][1] < arr[i][0]) {
+            res = mid;
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+    }
+    return res;
+}
+ 
+void solve() {
+    int n;
+    cin >> n;
+    vector<vector<int>> arr;
+    for(int i = 0;i < n;i++) {
+        int a, b, p;
+        cin >> a >> b >> p;
+        arr.push_back({a, b, p});
+    }
+    auto sortBy = [&](vector<int>& x, vector<int>& y) {
+        return x[1] < y[1];
+    };
+    sort(arr.begin(), arr.end(), sortBy);
+    // dp[i] = Maximum Reward for projects from index [0, i]
+    vector<ll> dp(n, 0);
+    dp[0] = arr[0][2];
+    for(int i = 1;i < n;i++) {
+        ll pick = arr[i][2];
+        int index = find(arr, i);  
+        if(index != -1) pick += dp[index];
+        ll notpick = dp[i - 1];
+        dp[i] = max(pick, notpick);
+    }
+    cout << dp[n - 1];
+}
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+ 
+    int t = 1;
+    //cin >> t;
+    while(t--) {
+        solve();
+    }
+    return 0;
+}
