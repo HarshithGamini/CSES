@@ -1,0 +1,85 @@
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+using namespace std;
+ 
+typedef long long ll;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+ 
+bool e(int i, int j, vector<vector<char>>& grid) {
+    int n = grid.size();
+    int m = grid[0].size();
+    return (i >= 0 && i < n && j >= 0 && j < m && grid[i][j] == '.');
+}
+ 
+void solve() {
+    int n, m;
+    cin >> n >> m;
+    vector<vector<char>> grid(n, vector<char>(m));
+    int starti = -1, startj = -1;
+    int endi = -1, endj = -1;
+    for(int i = 0;i < n;i++) {
+        for(int j = 0;j < m;j++) {
+            cin >> grid[i][j];
+            if(grid[i][j] == 'A') {
+                starti = i;
+                startj = j;
+            }
+            if(grid[i][j] == 'B') {
+                endi = i;
+                endj = j;
+                grid[i][j] = '.';
+            }
+        }
+    }
+    vector<vector<char>> p(n, vector<char>(m));
+    vector<int> dx = {-1, 1, 0, 0};
+    vector<int> dy = {0, 0, 1, -1};
+    vector<char> d = {'U', 'D', 'R', 'L'};
+    queue<pair<int,int>> q;
+    q.push({starti, startj});
+    while(!q.empty()) {
+        int i = q.front().first;
+        int j = q.front().second;
+        q.pop();
+        for(int k = 0;k < 4;k++) {
+            int ni = i + dx[k];
+            int nj = j + dy[k];
+            if(!e(ni, nj, grid)) continue;
+            grid[ni][nj] = '#';
+            q.push({ni, nj});
+            p[ni][nj] = d[k]; 
+        }
+    }
+    if(grid[endi][endj] == '#') {
+        cout << "YES" << "\n";
+        string res = "";
+        while(endi != starti || endj != startj) {
+            res += p[endi][endj];
+            int move = -1;
+            if(p[endi][endj] == 'D') move = 0;
+            if(p[endi][endj] == 'U') move = 1;
+            if(p[endi][endj] == 'L') move = 2;
+            if(p[endi][endj] == 'R') move = 3;
+            endi += dx[move];
+            endj += dy[move];
+        }
+        reverse(res.begin(), res.end());
+        cout << res.size() << "\n";
+        cout << res;
+    } else {
+        cout << "NO";
+    }
+}
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+ 
+    int t = 1;
+    //cin >> t;
+    while(t--) {
+        solve();
+    }
+    return 0;
+}
