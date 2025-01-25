@@ -2,12 +2,11 @@
 #include <ext/pb_ds/assoc_container.hpp>
 using namespace __gnu_pbds;
 using namespace std;
- 
+
 typedef long long ll;
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
- 
+
 void dfs(int u, vector<int>& vis, vector<vector<ll>>& adj) {
-    if(vis[u]) return;
     vis[u] = 1;
     for(auto& v: adj[u]) {
         if(!vis[v]) {
@@ -15,7 +14,7 @@ void dfs(int u, vector<int>& vis, vector<vector<ll>>& adj) {
         }
     }
 }
- 
+
 void solve() {
     int n, m;
     cin >> n >> m;
@@ -34,7 +33,7 @@ void solve() {
     vector<int> vis2(n, 0);
     dfs(0, vis, adj);
     dfs(n - 1, vis2, adj2);
- 
+
     vector<ll> dist(n, -1e18);
     dist[0] = 0;
     for(int i = 0;i < n;i++) {
@@ -53,11 +52,11 @@ void solve() {
     }
     cout << dist[n - 1] << "\n";
 }
- 
+
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
- 
+
     int t = 1;
     //cin >> t;
     while(t--) {
