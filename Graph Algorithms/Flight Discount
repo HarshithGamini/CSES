@@ -1,0 +1,64 @@
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+using namespace std;
+ 
+typedef long long ll;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+ 
+void solve(ll u, vector<vector<pair<ll,ll>>>& adj, vector<ll>& dist) {
+    priority_queue<pair<ll,ll>, vector<pair<ll,ll>>, greater<>> pq;
+    dist[u] = 0;
+    pq.push({dist[u], u});
+    while(!pq.empty()) {
+        ll d = pq.top().first;
+        ll node = pq.top().second;
+        pq.pop();
+        
+        if(d > dist[node]) continue;
+        for(auto& [v, w]: adj[node]) {
+            if(w + d < dist[v]) {
+                dist[v] = w + d;
+                pq.push({dist[v], v});
+            }
+        }
+    }
+}
+ 
+void solve() {
+    int n, m;
+    cin >> n >> m;
+    vector<vector<pair<ll,ll>>> adj1(n);
+    vector<vector<pair<ll,ll>>> adj2(n);
+    for(int i = 0;i < m;i++) {
+        ll a, b, c;
+        cin >> a >> b >> c;
+        a--, b--;
+        adj1[a].push_back({b, c});
+        adj2[b].push_back({a, c});
+    }
+    vector<ll> dist1(n, 1e18);
+    vector<ll> dist2(n, 1e18);
+    solve(0, adj1, dist1);
+    solve(n - 1, adj2, dist2);
+ 
+    ll res = 1e18;
+    for(int i = 0;i < n;i++) {
+        for(auto& [v, w]: adj1[i]) {
+            res = min(res, dist1[i] + dist2[v] + w / 2);
+        }
+    }
+    cout << res;
+}
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+ 
+    int t = 1;
+    //cin >> t;
+    while(t--) {
+        solve();
+    }
+    return 0;
+}
