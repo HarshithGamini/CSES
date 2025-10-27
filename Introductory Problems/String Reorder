@@ -1,0 +1,63 @@
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+using namespace std;
+ 
+typedef long long ll;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+ 
+bool possible(int current, vector<int>& count){
+    int mode = 0, total = 0;
+    for(int c = 0; c < 26; c++){
+        if(count[mode] < count[c])
+            mode = c;
+        total += count[c];
+    }
+    return (count[mode] <= (total + 1) / 2) && (count[current] <= total / 2);
+}
+ 
+void solve() {
+    string s;
+    cin >> s;
+    int n = s.size();
+    vector<int> count(26, 0);
+    for(int i = 0;i < n;i++) {
+        count[s[i] - 'A']++;
+    }   
+ 
+    int lastchar = -1;
+    string res;
+    for(int i = 0;i < n;i++) {
+        bool filled = false;
+        for(int j = 0;j < 26 && !filled;j++) {
+            if(count[j] > 0 && lastchar != j) {
+                count[j]--;
+                if(possible(j, count)) {
+                    char ch = j + 'A';
+                    res += ch;
+                    lastchar = j;
+                    filled = true;
+                } else {
+                    count[j]++;
+                }
+            }
+        }
+        if(!filled) {
+            cout << -1;
+            return;
+        }
+    }
+    cout << res;
+}
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+ 
+    int t = 1;
+    //cin >> t;
+    while(t--) {
+        solve();
+    }
+    return 0;
+}
