@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+using namespace std;
+
+typedef long long ll;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+
+void solve() {
+    int n, q;
+    cin >> n >> q;
+    vector<int> x(n);
+    int K = log2(n) + 1;
+    vector<vector<int>> table(n, vector<int>(K));
+    for(int i = 0; i < n; i++) {
+        cin >> x[i];
+        table[i][0] = x[i];
+    }
+
+    for(int j = 1; (1 << j) <= n; j++) {
+        for(int i = 0; i + (1 << j) - 1 < n; i++) {
+            int w = (1 << (j - 1));
+            table[i][j] = min(table[i][j - 1], table[i + w][j - 1]); // minq(a, b) = min(minq(a, a + w − 1), minq(a + w, b))
+        }
+    }
+
+    while(q--) {
+        int a, b;
+        cin >> a >> b;
+        a--;
+        b--;
+        int k = log2(b - a + 1);
+        cout << min(table[a][k], table[b - (1 << k) + 1][k]) << "\n";
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int t = 1;
+    //cin >> t;
+    while(t--) {
+        solve();
+    }
+    return 0;
+}
